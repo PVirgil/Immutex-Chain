@@ -7,7 +7,7 @@ Designed for developers, educators, and NFT enthusiasts, ImmuTexChain offers a l
 
 ## 🚀 Live Demo
 
-👉 [Visit the Live Blockchain Explorer]([https://.koyeb.app](https://colourful-xena-paytonvirgil-e5f8550d.koyeb.app)
+👉 [Visit the Live Blockchain Explorer](https://colourful-xena-paytonvirgil-e5f8550d.koyeb.app)
 
 ---
 
