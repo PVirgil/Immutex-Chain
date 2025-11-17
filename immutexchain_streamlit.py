@@ -1,14 +1,11 @@
-# ImmuTexChain – A Persistent, Visual NFT Blockchain
-# Features: Full backend + persistent storage + HTML explorer + API
+# immutexchain_streamlit.py – Streamlit UI for ImmuTexChain NFT Blockchain
 
+import streamlit as st
 import hashlib
 import json
 import time
 import os
 from uuid import uuid4
-from flask import Flask, jsonify, request, render_template_string
-
-# ------------------- Persistent Blockchain Storage ------------------- #
 
 CHAIN_FILE = 'chain.json'
 
@@ -91,54 +88,43 @@ class Blockchain:
             data = json.load(f)
         return [Block(**block) for block in data]
 
-# ------------------- Flask App ------------------- #
+# Streamlit App UI
+st.set_page_config(page_title="ImmuTexChain Explorer", layout="centered")
+st.title("🔗 ImmuTexChain – Visual NFT Blockchain")
 
-app = Flask(__name__)
 blockchain = Blockchain()
 
-@app.route('/')
-def home():
-    html = """
-    <html><head><title>ImmuTexChain</title><style>
-    body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
-    .block { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 0 6px rgba(0,0,0,0.1); }
-    </style></head><body>
-    <h1>ImmuTexChain Explorer</h1>
-    {% for block in chain %}
-    <div class="block">
-      <h2>Block #{{ block.index }}</h2>
-      <p><b>Timestamp:</b> {{ block.timestamp }}</p>
-      <p><b>Hash:</b> {{ block.hash }}</p>
-      <p><b>Prev Hash:</b> {{ block.previous_hash }}</p>
-      <p><b>Nonce:</b> {{ block.nonce }}</p>
-      <ul>
-      {% for tx in block.transactions %}
-        <li>{{ tx.nft_id }}: {{ tx.sender }} → {{ tx.recipient }} ({{ tx.metadata_uri }})</li>
-      {% endfor %}
-      </ul>
-    </div>
-    {% endfor %}
-    </body></html>
-    """
-    chain_data = [block.__dict__ for block in blockchain.chain]
-    return render_template_string(html, chain=chain_data)
+menu = ["View Chain", "Mint NFT", "Mine Block"]
+choice = st.sidebar.radio("Navigate", menu)
 
-@app.route('/mint', methods=['POST'])
-def mint():
-    data = request.get_json()
-    if not all(k in data for k in ('sender', 'recipient', 'metadata_uri')):
-        return jsonify({'error': 'Missing fields'}), 400
-    nft_id = blockchain.add_transaction(data['sender'], data['recipient'], data['metadata_uri'])
-    return jsonify({'message': 'NFT added to pool', 'nft_id': nft_id})
+if choice == "View Chain":
+    for block in reversed(blockchain.chain):
+        with st.expander(f"Block #{block.index}"):
+            st.write(f"**Timestamp:** {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(block.timestamp))}")
+            st.write(f"**Hash:** {block.hash}")
+            st.write(f"**Previous Hash:** {block.previous_hash}")
+            st.write(f"**Nonce:** {block.nonce}")
+            st.markdown("**Transactions:**")
+            for tx in block.transactions:
+                st.markdown(f"- `{tx['nft_id']}`: **{tx['sender']}** → **{tx['recipient']}** (*{tx['metadata_uri']}*)")
 
-@app.route('/mine')
-def mine():
-    result = blockchain.mine()
-    return jsonify({'message': f'Block #{result} mined' if result else 'No transactions to mine'})
+elif choice == "Mint NFT":
+    st.subheader("Mint a New NFT Transaction")
+    sender = st.text_input("Sender")
+    recipient = st.text_input("Recipient")
+    metadata_uri = st.text_input("Metadata URI")
+    if st.button("Mint NFT"):
+        if sender and recipient and metadata_uri:
+            nft_id = blockchain.add_transaction(sender, recipient, metadata_uri)
+            st.success(f"NFT {nft_id} queued for mining")
+        else:
+            st.error("Please fill all fields")
 
-@app.route('/chain')
-def get_chain():
-    return jsonify([block.__dict__ for block in blockchain.chain])
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+elif choice == "Mine Block":
+    st.subheader("Mine a Block")
+    if st.button("Mine Now"):
+        mined = blockchain.mine()
+        if mined is not False:
+            st.success(f"✅ Block #{mined} mined and added to the chain")
+        else:
+            st.warning("No transactions to mine")
