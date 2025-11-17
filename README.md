@@ -1,70 +1,87 @@
 # 🔗 ImmuTexChain
-**ImmuTexChain** is a fully self-hosted, immutable NFT blockchain built entirely in Python using Flask. It features proof-of-work consensus, RESTful endpoints, persistent JSON storage, and a visual HTML explorer — all deployed with zero-cost infrastructure on Koyeb.
 
-Designed for developers, educators, and NFT enthusiasts, ImmuTexChain offers a lightweight and transparent blockchain environment for experimentation and minting, without gas fees or third-party dependencies.
+**ImmuTexChain** is a custom-built, persistent blockchain designed for minting and exploring NFTs with full visual transparency. Unlike traditional blockchain projects focused on tokens or mining rewards, ImmuTexChain emphasizes traceability, integrity, and human-readable interaction.
 
----
-
-## 🚀 Live Demo
-
-👉 [Visit the Live Blockchain Explorer](https://colourful-xena-paytonvirgil-e5f8550d.koyeb.app)
+Deployed with **Streamlit**, it offers a sleek interface for users to mint NFTs, mine blocks, and explore the blockchain history — all while maintaining the immutable qualities of a proof-of-work chain.
 
 ---
 
-## 🔧 Features
+## ⚙️ Features
 
-- ✅ Custom Proof-of-Work blockchain engine
-- 🎨 NFT minting with unique IDs and metadata URIs
-- ⛏ Manual mining to confirm NFT transactions
-- 💾 Persistent storage using `chain.json`
-- 🌍 Visual HTML blockchain explorer (via `/`)
-- 🔌 RESTful API (`/mint`, `/mine`, `/chain`)
-- 🆓 Free cloud deployment (via Koyeb)
+- 🔐 **Persistent Storage**: Saves the blockchain to `chain.json` to ensure continuity across sessions.
+- 🖼️ **NFT Transaction Support**: Mint NFTs by specifying sender, recipient, and metadata URI.
+- 🔨 **Proof-of-Work Mining**: Each block is validated via PoW, ensuring consistency and immutability.
+- 📜 **Visual Chain Explorer**: Clean, expandable block viewer with readable transaction history.
+- 🚀 **Streamlit UI**: No APIs or backend complexity — just launch and interact via the web UI.
 
 ---
 
-## 🛠 Tech Stack
+## 🛠️ Technologies
 
-- **Backend:** Python 3, Flask
-- **Storage:** Local JSON file (`chain.json`)
-- **Deployment:** Gunicorn + Koyeb (free-tier cloud)
-- **Frontend:** HTML-rendered Flask templates
+- Python 3
+- [Streamlit](https://streamlit.io)
+- Built-in libraries: `hashlib`, `json`, `time`, `uuid`, `os`
 
 ---
 
-## 🌐 API Reference
+## 📂 File Structure
 
-### `GET /`
-Returns an HTML page rendering all blocks and NFT transactions visually.
-
-### `POST /mint`
-Mint a new NFT.  
-**Body JSON:**
-```json
-{
-  "sender": "wallet1",
-  "recipient": "wallet2",
-  "metadata_uri": "https://example.com/nft/metadata.json"
-}
+```
+immutexchain/
+│
+├── immutexchain_streamlit.py    # Main blockchain + Streamlit interface
+├── chain.json                   # Persistent blockchain storage
+├── requirements.txt             # Project dependencies
+└── README.md                    # Documentation
 ```
 
-### `GET /mine`
-Mines all unconfirmed NFT transactions into a new block.
+---
 
-### `GET /chain`
-Returns full blockchain data as JSON.
+## 🚀 Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/immutexchain.git
+   cd immutexchain
+   ```
+
+2. Install the requirements:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Run the Streamlit app:
+   ```bash
+   streamlit run immutexchain_streamlit.py
+   ```
 
 ---
 
-## 💾 Data Persistence
+## 🧪 Functional Overview
 
-The blockchain is saved to a `chain.json` file, ensuring all data survives restarts or redeployments. This makes ImmuTexChain ideal for ongoing projects or demonstrations without data loss.
+### 🔁 Mint NFT
+- Input `Sender`, `Recipient`, and `Metadata URI`
+- Mints a new transaction into the pending pool
+- Wait for it to be mined into a block
+
+### ⛏️ Mine Block
+- Validates all pending transactions via PoW
+- Adds a new block to the chain
+- Clears the transaction pool after successful mining
+
+### 📜 View Chain
+- Visualize all blocks and their contents
+- Expand each block to view metadata, hash, nonce, and transactions
 
 ---
 
-## 📊 Use Cases
+## 📈 Future Enhancements
 
-- Blockchain education and workshops
-- NFT prototyping without Ethereum
-- Testbed for consensus and storage logic
-- Custom or private NFT minting with no fees
+- Transaction signatures and block validators
+- NFT metadata preview (image/audio rendering)
+- Chain export/import between peers
+- Analytics: chain growth, transaction volume, minting frequency
+
+---
+
+Built to explore how NFTs and blockchain can be made **transparent, educational, and user-driven** without centralized platforms or token economics.
