@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "immutexchain_app.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "immutexchain_app.py" }
+  ]
+}
