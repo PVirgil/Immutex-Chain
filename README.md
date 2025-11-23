@@ -2,24 +2,24 @@
 
 **ImmuTexChain** is a custom-built, persistent blockchain designed for minting and exploring NFTs with full visual transparency. Unlike traditional blockchain projects focused on tokens or mining rewards, ImmuTexChain emphasizes traceability, integrity, and human-readable interaction.
 
-Deployed with **Streamlit**, it offers a sleek interface for users to mint NFTs, mine blocks, and explore the blockchain history — all while maintaining the immutable qualities of a proof-of-work chain.
+Deployed with **Vercel**, it offers a sleek interface for users to mint NFTs, mine blocks, and explore the blockchain history — all while maintaining the immutable qualities of a proof-of-work chain.
 
 ---
 
 ## ⚙️ Features
 
-- 🔐 **Persistent Storage**: Saves the blockchain to `chain.json` to ensure continuity across sessions.
+- 🔐 **Persistent Storage**: Saves the blockchain to `vercel.json` to ensure continuity across sessions.
 - 🖼️ **NFT Transaction Support**: Mint NFTs by specifying sender, recipient, and metadata URI.
 - 🔨 **Proof-of-Work Mining**: Each block is validated via PoW, ensuring consistency and immutability.
 - 📜 **Visual Chain Explorer**: Clean, expandable block viewer with readable transaction history.
-- 🚀 **Streamlit UI**: No APIs or backend complexity — just launch and interact via the web UI.
+- 🚀 **Vercel UI**: No APIs or backend complexity — just launch and interact via the web UI.
 
 ---
 
 ## 🛠️ Technologies
 
 - Python 3
-- [Streamlit](https://streamlit.io)
+- Vercel
 - Built-in libraries: `hashlib`, `json`, `time`, `uuid`, `os`
 
 ---
@@ -29,31 +29,11 @@ Deployed with **Streamlit**, it offers a sleek interface for users to mint NFTs,
 ```
 immutexchain/
 │
-├── immutexchain_streamlit.py    # Main blockchain + Streamlit interface
-├── chain.json                   # Persistent blockchain storage
+├── immutexchain_app.py          # Main blockchain + Vercel interface
+├── vercel.json                  # Persistent blockchain storage
 ├── requirements.txt             # Project dependencies
 └── README.md                    # Documentation
 ```
-
----
-
-## 🚀 Getting Started
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/immutexchain.git
-   cd immutexchain
-   ```
-
-2. Install the requirements:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Run the Streamlit app:
-   ```bash
-   streamlit run immutexchain_streamlit.py
-   ```
 
 ---
 
